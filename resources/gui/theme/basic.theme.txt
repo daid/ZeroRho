@@ -1,0 +1,24 @@
+{
+    color: #FFFFFF
+    font: gui/theme/basic/sansation.ttf
+    size: 16
+
+    [button] {
+        color.disabled: #808080
+        color.hovered: #808080
+    }
+    [panel] {
+    }
+    [label] {
+    }
+    [slider.background] {
+        image: gui/theme/basic/background.png
+        color: #ffffffc0
+        color.hovered: #ffffff80
+    }
+    [slider.forground] {
+        image: gui/theme/basic/background.png
+        color: #ffffffc0
+        color.hovered: #ffffff80
+    }
+}
