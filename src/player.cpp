@@ -9,6 +9,7 @@
 #include <sp2/collision/2d/circle.h>
 #include <sp2/graphics/textureManager.h>
 #include <sp2/audio/sound.h>
+#include <sp2/audio/music.h>
 
 
 PlayerShip::PlayerShip(PlayerInput& controller)
@@ -32,7 +33,7 @@ PlayerShip::PlayerShip(PlayerInput& controller)
     shadow->render_data.color = sp::Color(0,0,0, 0.5);
     shadow->setPosition(sp::Vector3d(0, 0, -1));
     
-    sp::collision::Circle2D shape(0.7);
+    sp::collision::Circle2D shape(0.5);
     shape.fixed_rotation = true;
     shape.linear_damping = 30.0;
     //shape.restitution = 0.5;
@@ -58,27 +59,18 @@ void PlayerShip::onFixedUpdate()
     else
         ship->setPosition(sp::Vector3d(0, 0, std::sin(time_delta * sp::pi) * 0.2));
     
-    if (health < 5)
+    if (health < 3)
     {
-        if (smoke_counter)
-        {
-            smoke_counter--;
-        }
-        else
-        {
-            sp::ParticleEmitter::Parameters p;
-            p.position = sp::Vector3f(ship->getPosition3D()) + sp::Vector3f(sp::random(-0.5, 0.5), sp::random(-0.5, 0.5), 0);
-            p.velocity = sp::Vector3f(sp::random(-1, 1), forward_velocity*0.65, 1);
-            p.acceleration = sp::Vector3f(0, -30, 1);
-            p.start_size = 0.1;
-            p.end_size = 1.0;
-            p.start_color = sp::Color(1,1,1);
-            p.end_color = sp::Color(1,1,1,0);
-            p.lifetime = 1.0;
-            smoke_generator->emit(p);
-            
-            smoke_counter = (health - 1) * 2;
-        }
+        sp::ParticleEmitter::Parameters p;
+        p.position = sp::Vector3f(ship->getPosition3D()) + sp::Vector3f(sp::random(-0.5, 0.5), sp::random(-0.5, 0.5), 0);
+        p.velocity = sp::Vector3f(sp::random(-1, 1), forward_velocity*0.65, 1);
+        p.acceleration = sp::Vector3f(0, -30, 1);
+        p.start_size = 0.1;
+        p.end_size = 1.0;
+        p.start_color = sp::Color(1,1,1);
+        p.end_color = sp::Color(1,1,1,0);
+        p.lifetime = 1.0;
+        smoke_generator->emit(p);
     }
     
     if (health < 2)
@@ -115,7 +107,7 @@ void PlayerShip::onCollision(sp::CollisionInfo& info)
             if (health < 1)
             {
                 sp::audio::Sound::play("sfx/explosion.ogg");
-                
+                sp::audio::Music::stop();
                 explosion();
                 delete this;
             }

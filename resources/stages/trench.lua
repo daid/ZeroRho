@@ -2,7 +2,6 @@
 
 function startTrench()
     addTrench(100, 0, 50)
-    addTrench(50, 0, 50)
 end
 
 function endTrench()

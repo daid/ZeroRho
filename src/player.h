@@ -24,9 +24,8 @@ private:
     sp::P<sp::ParticleEmitter> smoke_generator, fire_generator;
     double time_delta = 0.0;
     
-    int health = 5;
+    int health = 3;
     int invulnerability = 0;
-    int smoke_counter = 0;
 };
 
 #endif//PLAYER_H
