@@ -6,5 +6,6 @@
 class PlayerShip;
 extern sp::P<PlayerShip> player;
 extern float finish_length;
+extern float trench_length;
 
 #endif//MAIN_H

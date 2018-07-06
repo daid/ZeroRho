@@ -1,6 +1,7 @@
 include("trench.lua")
 
 
+music("Juhani Junkala [Retro Game Music Pack] Level 1")
 function run()
     startTrench()
     
