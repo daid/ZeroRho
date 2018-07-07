@@ -51,7 +51,7 @@ void PlayerShip::onFixedUpdate()
 {
     time_delta += sp::Engine::fixed_update_delta;
     
-    float movement_request = controller.right.get() - controller.left.get();
+    float movement_request = controller.right.getValue() - controller.left.getValue();
     setLinearVelocity(sp::Vector2d(getLinearVelocity2D().x + movement_request * 8.0, forward_velocity));
     ship->setRotation(sp::Quaterniond::fromAxisAngle(sp::Vector3d(0, 0, 1), 180) * sp::Quaterniond::fromAxisAngle(sp::Vector3d(0, 1, 0), -movement_request * 15));
     if (time_delta < drop_in_time)
