@@ -52,8 +52,13 @@ public:
     virtual void onUpdate(float delta) override;
 
 private:
+    void restart();
+
     sp::P<ScriptEnvironment> script_environment;
     sp::script::CoroutinePtr coroutine;
+    sp::string stage_name;
+    
+    float restart_delay;
 };
 
 class PreviewScene : public sp::Scene
@@ -75,9 +80,9 @@ public:
     {
         for(auto child : getRoot()->getChildren())
         {
-            if (sp::P<sp::Camera>(sp::P<sp::Node>(child)))
+            if (sp::P<sp::Camera>(child))
                 continue;
-            delete child;
+            child.destroy();
         }
     
         sp::P<ScriptEnvironment> script_environment = new ScriptEnvironment();
@@ -105,9 +110,10 @@ public:
 #ifdef DEBUG
         if (!switch_delay && preview_switch.getDown())
         {
+            sp::string name = stage_name;
             switch_delay = true;
             delete this;
-            new GameplayScene("stage_1");
+            new GameplayScene(stage_name);
         }
         else
         {
@@ -137,8 +143,21 @@ private:
 };
 
 GameplayScene::GameplayScene(sp::string stage_name)
-: sp::Scene("MAIN")
+: sp::Scene("MAIN"), stage_name(stage_name)
 {
+    restart();
+}
+
+GameplayScene::~GameplayScene()
+{
+    script_environment.destroy();
+}
+
+void GameplayScene::restart()
+{
+    for(auto child : getRoot()->getChildren())
+        child.destroy();
+    script_environment.destroy();
     script_environment = new ScriptEnvironment();
     script_environment->load(sp::io::ResourceProvider::get("stages/" + stage_name + ".lua"));
     coroutine = script_environment->callCoroutine("run");
@@ -146,12 +165,9 @@ GameplayScene::GameplayScene(sp::string stage_name)
     player = new PlayerShip(PlayerInput::left_controller);
     new Camera();
     
-    onFixedUpdate();
-}
-
-GameplayScene::~GameplayScene()
-{
-    script_environment.destroy();
+    restart_delay = 5.0;
+    
+    onUpdate(0);
 }
 
 void GameplayScene::onUpdate(float delta)
@@ -164,13 +180,27 @@ void GameplayScene::onUpdate(float delta)
             if (!coroutine->resume())
                 coroutine = nullptr;
         }
+        if (player_y > finish_length && finish_length != 0.0)
+        {
+            restart_delay -= delta;
+            if (restart_delay < 0)
+                restart();
+        }
     }
+    else
+    {
+        restart_delay -= delta;
+        if (restart_delay < 0)
+            restart();
+    }
+    
 #ifdef DEBUG
     if (!switch_delay && preview_switch.getDown())
     {
+        sp::string name = stage_name;
         switch_delay = true;
         delete this;
-        new PreviewScene("stage_1");
+        new PreviewScene(name);
     }
     else
     {
