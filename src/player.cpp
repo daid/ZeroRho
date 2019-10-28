@@ -64,11 +64,11 @@ void PlayerShip::onFixedUpdate()
         sp::ParticleEmitter::Parameters p;
         p.position = sp::Vector3f(ship->getPosition3D()) + sp::Vector3f(sp::random(-0.5, 0.5), sp::random(-0.5, 0.5), 0);
         p.velocity = sp::Vector3f(sp::random(-1, 1), forward_velocity*0.65, 1);
-        p.acceleration = sp::Vector3f(0, -30, 1);
-        p.start_size = 0.1;
-        p.end_size = 1.0;
-        p.start_color = sp::Color(1,1,1);
-        p.end_color = sp::Color(1,1,1,0);
+        //p.acceleration = sp::Vector3f(0, -30, 1);
+        //p.start_size = 0.1;
+        //p.end_size = 1.0;
+        //p.start_color = sp::Color(1,1,1);
+        //p.end_color = sp::Color(1,1,1,0);
         p.lifetime = 1.0;
         smoke_generator->emit(p);
     }
@@ -78,11 +78,11 @@ void PlayerShip::onFixedUpdate()
         sp::ParticleEmitter::Parameters p;
         p.position = sp::Vector3f(ship->getPosition3D()) + sp::Vector3f(sp::random(-0.25, 0.25), sp::random(-0.25, 0.25), 0);
         p.velocity = sp::Vector3f(sp::random(-1, 1), sp::random(-5, -3), 2);
-        p.acceleration = sp::Vector3f(0, -10, 1);
-        p.start_size = 0.5;
-        p.end_size = 0.1;
-        p.start_color = sp::Color(1,1,1);
-        p.end_color = sp::Color(1,0,0,0);
+        //p.acceleration = sp::Vector3f(0, -10, 1);
+        //p.start_size = 0.5;
+        //p.end_size = 0.1;
+        //p.start_color = sp::Color(1,1,1);
+        //p.end_color = sp::Color(1,0,0,0);
         p.lifetime = sp::random(0.3, 0.5);
         fire_generator->emit(p);
     }
