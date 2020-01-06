@@ -128,10 +128,10 @@ void PlayerShip::explosion()
         p.position = sp::Vector3f(ship->getPosition3D()) + sp::Vector3f(sp::random(-0.5, 0.5), sp::random(-0.5, 0.5), 0);
         p.velocity = sp::Vector3f(sp::random(-3, 3), sp::random(5, 10), sp::random(-3, 3));
         p.acceleration = -p.velocity * 0.3f;
-        p.start_size = 0.5;
-        p.end_size = 10.0;
-        p.start_color = sp::Color(1,1,1);
-        p.end_color = sp::Color(1,1,1,0);
+        //p.start_size = 0.5;
+        //p.end_size = 10.0;
+        //p.start_color = sp::Color(1,1,1);
+        //p.end_color = sp::Color(1,1,1,0);
         p.lifetime = 5.0;
         pe->emit(p);
     }
@@ -147,10 +147,10 @@ void PlayerShip::explosion()
         p.position = sp::Vector3f(ship->getPosition3D()) + sp::Vector3f(sp::random(-0.25, 0.25), sp::random(-0.25, 0.25), 0);
         p.velocity = sp::Vector3f(0, sp::random(0, 5), 0);
         p.acceleration = sp::Vector3f(0, 0, 0);
-        p.start_size = 1.5;
-        p.end_size = 2.5;
-        p.start_color = sp::Color(1,1,1);
-        p.end_color = sp::Color(1,0,0,0);
+        //p.start_size = 1.5;
+        //p.end_size = 2.5;
+        //p.start_color = sp::Color(1,1,1);
+        //p.end_color = sp::Color(1,0,0,0);
         p.lifetime = sp::random(0.5,1.5);
         pe->emit(p);
     }
