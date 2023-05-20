@@ -87,8 +87,8 @@ public:
     
         sp::P<ScriptEnvironment> script_environment = new ScriptEnvironment();
         script_environment->load(sp::io::ResourceProvider::get("stages/" + stage_name + ".lua"));
-        sp::script::CoroutinePtr coroutine = script_environment->callCoroutine("run");
-        while(coroutine && coroutine->resume())
+        sp::script::CoroutinePtr coroutine = script_environment->callCoroutine("run").value();
+        while(coroutine && coroutine->resume().value())
         {
         }
         script_environment.destroy();
@@ -160,7 +160,7 @@ void GameplayScene::restart()
     script_environment.destroy();
     script_environment = new ScriptEnvironment();
     script_environment->load(sp::io::ResourceProvider::get("stages/" + stage_name + ".lua"));
-    coroutine = script_environment->callCoroutine("run");
+    coroutine = script_environment->callCoroutine("run").value();
     
     player = new PlayerShip(PlayerInput::left_controller);
     new Camera();
@@ -177,7 +177,7 @@ void GameplayScene::onUpdate(float delta)
         double player_y = player->getPosition2D().y;
         while(coroutine && player_y > trench_length - 1000)
         {
-            if (!coroutine->resume())
+            if (!coroutine->resume().value())
                 coroutine = nullptr;
         }
         if (player_y > finish_length && finish_length != 0.0)
